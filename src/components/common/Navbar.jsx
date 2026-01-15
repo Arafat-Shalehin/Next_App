@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Login from "../buttons/Login";
-import NavLinkItem from "./Navlinks";
+import NavLinkItem from "../edgeCases/Navlinks";
 
 const NAV_ITEMS = [
   { href: "/", label: "Home" },

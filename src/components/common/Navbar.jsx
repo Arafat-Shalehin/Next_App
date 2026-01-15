@@ -1,38 +1,12 @@
-"use client";
-
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import Login from "../buttons/Login";
+import NavLinkItem from "./Navlinks";
 
 const NAV_ITEMS = [
   { href: "/", label: "Home" },
   { href: "/all-page", label: "All Items" },
   { href: "/add-items", label: "Add Items" },
 ];
-
-function NavLinkItem({ href, label }) {
-  const pathname = usePathname();
-  const isActive = pathname === href;
-
-  return (
-    <li>
-      <Link
-        href={href}
-        aria-current={isActive ? "page" : undefined}
-        className={[
-          "rounded-xl px-3 py-2 text-sm font-medium",
-          "text-warmTwo",
-          "hover:bg-base-light hover:text-warmTwo",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-muted focus-visible:ring-offset-2 focus-visible:ring-offset-base-cream",
-          isActive
-            ? "bg-base-light border border-base-depth"
-            : "border border-transparent",
-        ].join(" ")}
-      >
-        {label}
-      </Link>
-    </li>
-  );
-}
 
 export default function Navbar() {
   return (
@@ -102,17 +76,7 @@ export default function Navbar() {
 
         {/* Right */}
         <div className="navbar-end">
-          <Link
-            href="/login"
-            className={[
-              "btn rounded-2xl border border-base-depth",
-              "bg-mint text-warmTwo",
-              "hover:bg-muted hover:border-base-depth",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-muted focus-visible:ring-offset-2 focus-visible:ring-offset-base-cream",
-            ].join(" ")}
-          >
-            Login
-          </Link>
+          <Login></Login>
         </div>
       </div>
     </header>

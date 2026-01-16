@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div className="bg-base-cream">
       <Hero />
-      <FeaturedItems />
+      <FeaturedItems detailsBasePath="/all-page" />
     </div>
   );
 }

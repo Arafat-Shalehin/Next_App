@@ -1,14 +1,21 @@
 import Link from "next/link";
-import Login from "../buttons/Login";
 import NavLinkItem from "../edgeCases/Navlinks";
+import UserMenu from "./UserMenu";
 
 const NAV_ITEMS = [
-  { href: "/", label: "Home" },
+  { href: "/", label: "Home", exact: true },
   { href: "/all-page", label: "All Items" },
   { href: "/add-items", label: "Add Items" },
 ];
 
-export default function Navbar() {
+export default function Navbar({ session }) {
+  const user = session?.user || null;
+
+  // UX: hide protected nav item if not logged in (middleware still protects route)
+  const visibleNavItems = user
+    ? NAV_ITEMS
+    : NAV_ITEMS.filter((i) => i.href !== "/add-items");
+
   return (
     <header className="sticky top-0 z-50 border-b border-base-depth bg-base-cream">
       <div className="navbar mx-auto max-w-6xl px-4">
@@ -43,11 +50,12 @@ export default function Navbar() {
               tabIndex={0}
               className="menu dropdown-content mt-3 w-56 rounded-2xl border border-base-depth bg-base-light p-2 shadow"
             >
-              {NAV_ITEMS.map((item) => (
+              {visibleNavItems.map((item) => (
                 <NavLinkItem
                   key={item.href}
                   href={item.href}
                   label={item.label}
+                  exact={item.exact}
                 />
               ))}
             </ul>
@@ -64,19 +72,37 @@ export default function Navbar() {
         {/* Center (desktop) */}
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal gap-1 px-1">
-            {NAV_ITEMS.map((item) => (
+            {visibleNavItems.map((item) => (
               <NavLinkItem
                 key={item.href}
                 href={item.href}
                 label={item.label}
+                exact={item.exact}
               />
             ))}
           </ul>
         </div>
 
         {/* Right */}
-        <div className="navbar-end">
-          <Login></Login>
+        <div className="navbar-end gap-2">
+          {user ? (
+            <UserMenu user={user} />
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="btn rounded-2xl border border-base-depth bg-mint text-warmTwo hover:bg-muted"
+              >
+                Login
+              </Link>
+              <Link
+                href="/register"
+                className="btn rounded-2xl border border-base-depth bg-warm text-warmTwo hover:bg-muted"
+              >
+                Register
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>

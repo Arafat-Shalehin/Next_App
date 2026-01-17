@@ -19,8 +19,25 @@ export const authOptions = {
       },
       async authorize(credentials) {
         try {
+          const email = credentials?.email?.trim();
+          const password = credentials?.password;
+
+          const mockEmail = process.env.MOCK_EMAIL || "demo@itembox.com";
+          const mockPassword = process.env.MOCK_PASSWORD || "Demo1234";
+
+          // ✅ Mock login (hardcoded)
+          if (email === mockEmail && password === mockPassword) {
+            return {
+              id: "mock-user",
+              name: "Demo User",
+              email: mockEmail,
+              role: "user",
+            };
+          }
+
+          // ✅ Normal DB credentials login
           const user = await loginUser(credentials);
-          return user; // { id, name, email, role }
+          return user;
         } catch (error) {
           console.error("Credentials authorize error:", error);
           return null;
